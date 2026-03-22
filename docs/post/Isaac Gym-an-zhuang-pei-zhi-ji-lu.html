@@ -10,18 +10,42 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="占位待写
+<meta name="description" content="# 🛠️ 前置准备：系统与环境配置指南 (OmniRobCtrl)
 
-![Image](https://github.com/user-attachments/assets/da6ec195-c2b1-4945-830e-0b5f40d42d40)。">
+> **📝 元数据**
+> - **适用系统**: Ubuntu 20.04 (云服务器/本地)
+> - **核心环境**: Python 3.8.10, CUDA 11.x
+> - **关键组件**: Isaac Gym, PyTorch, MuJoCo
+> - **最后更新**: 2023-10-27
+> - **状态**: ✅ 验证通过
+
+---
+
+## 1. 基础环境要求
+
+- **操作系统**: Ubuntu 20.04
+  > *注：具体搭建过程教程众多，请根据自身情况自行搜索安装。">
 <meta property="og:title" content="Isaac Gym安装配置记录">
-<meta property="og:description" content="占位待写
+<meta property="og:description" content="# 🛠️ 前置准备：系统与环境配置指南 (OmniRobCtrl)
 
-![Image](https://github.com/user-attachments/assets/da6ec195-c2b1-4945-830e-0b5f40d42d40)。">
+> **📝 元数据**
+> - **适用系统**: Ubuntu 20.04 (云服务器/本地)
+> - **核心环境**: Python 3.8.10, CUDA 11.x
+> - **关键组件**: Isaac Gym, PyTorch, MuJoCo
+> - **最后更新**: 2023-10-27
+> - **状态**: ✅ 验证通过
+
+---
+
+## 1. 基础环境要求
+
+- **操作系统**: Ubuntu 20.04
+  > *注：具体搭建过程教程众多，请根据自身情况自行搜索安装。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://lzlzlzlzlzlzlz.github.io/lzlzlz.github.io/post/Isaac%20Gym-an-zhuang-pei-zhi-ji-lu.html">
 <meta property="og:image" content="https://github.githubassets.com/favicons/favicon.svg">
 <title>Isaac Gym安装配置记录</title>
-
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
 
 
 </head>
@@ -45,7 +69,17 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     body {padding: 8px;}
     .postTitle{font-size:24px;}
 }
-
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
 </style>
 
 
@@ -77,8 +111,104 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><p>占位待写</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/da6ec195-c2b1-4945-830e-0b5f40d42d40"><img src="https://github.com/user-attachments/assets/da6ec195-c2b1-4945-830e-0b5f40d42d40" alt="Image" style="max-width: 100%;"></a></p></div>
+<div class="markdown-body" id="postBody"><h1>🛠️ 前置准备：系统与环境配置指南 (OmniRobCtrl)</h1>
+<blockquote>
+<p><strong>📝 元数据</strong></p>
+<ul>
+<li><strong>适用系统</strong>: Ubuntu 20.04 (云服务器/本地)</li>
+<li><strong>核心环境</strong>: Python 3.8.10, CUDA 11.x</li>
+<li><strong>关键组件</strong>: Isaac Gym, PyTorch, MuJoCo</li>
+<li><strong>最后更新</strong>: 2023-10-27</li>
+<li><strong>状态</strong>: ✅ 验证通过</li>
+</ul>
+</blockquote>
+<hr>
+<h2>1. 基础环境要求</h2>
+<ul>
+<li><strong>操作系统</strong>: Ubuntu 20.04
+<blockquote>
+<p><em>注：具体搭建过程教程众多，请根据自身情况自行搜索安装。云服务器通常已预装。</em></p>
+</blockquote>
+</li>
+</ul>
+<h2>2. Anaconda 虚拟环境设置</h2>
+<p>首先创建并激活专用的 Python 虚拟环境，以确保依赖包的隔离性，避免污染系统环境。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 1. 创建名为 OmniRobCtrl 的虚拟环境，锁定 Python 版本为 3.8.10</span>
+conda create -n OmniRobCtrl python=3.8.10 -y
+
+<span class="pl-c"><span class="pl-c">#</span> 2. 激活该环境</span>
+conda activate OmniRobCtrl
+
+<span class="pl-c"><span class="pl-c">#</span>3. 配置系统环境变量 (.bashrc)</span>
+nano <span class="pl-k">~</span>/.bashrc
+<span class="pl-c"><span class="pl-c">#</span> 或者使用 vim ~/.bashrc</span>
+
+<span class="pl-c"><span class="pl-c">#</span> ==========================================</span>
+<span class="pl-c"><span class="pl-c">#</span> OmniRobCtrl 环境专属配置</span>
+<span class="pl-c"><span class="pl-c">#</span> ==========================================</span>
+
+<span class="pl-c"><span class="pl-c">#</span> 1. CUDA 路径配置</span>
+<span class="pl-k">export</span> PATH=/usr/local/cuda/bin: $ PATH
+<span class="pl-k">export</span> LD_LIBRARY_PATH=/usr/local/cuda/lib64: $ LD_LIBRARY_PATH
+
+<span class="pl-c"><span class="pl-c">#</span> 2. 系统基础库路径</span>
+<span class="pl-k">export</span> LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu: $ LD_LIBRARY_PATH
+
+<span class="pl-c"><span class="pl-c">#</span> 3. Conda 环境库路径 (⚠️ 需修改此处)</span>
+<span class="pl-c"><span class="pl-c">#</span> 请将下方路径替换为您实际的 conda 安装绝对路径</span>
+<span class="pl-c"><span class="pl-c">#</span> 示例：/home/your_username/anaconda3/envs/OmniRobCtrl/lib/</span>
+<span class="pl-c"><span class="pl-c">#</span> 如果您使用的是 miniconda，请将 anaconda3 改为 miniconda3</span>
+<span class="pl-k">export</span> LD_LIBRARY_PATH=<span class="pl-k">~</span>/anaconda3/envs/OmniRobCtrl/lib/: $ LD_LIBRARY_PATH
+
+<span class="pl-c"><span class="pl-c">#</span> 4. Vulkan 配置 (NVIDIA 显卡必备，用于图形渲染)</span>
+<span class="pl-k">export</span> VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/nvidia_icd.json
+
+<span class="pl-c1">source</span> <span class="pl-k">~</span>/.bashrc
+
+<span class="pl-c"><span class="pl-c">#</span>4. 安装 Python 依赖包</span>
+<span class="pl-c"><span class="pl-c">#</span> --- 深度学习核心 ---</span>
+pip install torchvision torch -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+<span class="pl-c"><span class="pl-c">#</span> --- 数学与物理引擎 ---</span>
+pip install pyquaternion pyyaml -i https://pypi.tuna.tsinghua.edu.cn/simple
+pip install mujoco==2.3.7 mujoco-py mujoco-python-viewer -i https://pypi.tuna.tsinghua.edu.cn/simple
+pip install dm_control==1.0.14 -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+<span class="pl-c"><span class="pl-c">#</span> --- 机器人工具链 ---</span>
+pip install rospkg lcm -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+<span class="pl-c"><span class="pl-c">#</span> --- 可视化与通用工具 ---</span>
+pip install opencv-python matplotlib einops tqdm h5py tensorboard ipython -i https://pypi.tuna.tsinghua.edu.cn/simple
+pip install wandb getkey chardet packaging pexpect -i https://pypi.tuna.tsinghua.edu.cn/simple
+pip install h5py_cache -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+<span class="pl-c"><span class="pl-c">#</span> --- 版本锁定 (防止兼容性报错) ---</span>
+pip install numpy==1.23.2 -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+<span class="pl-c"><span class="pl-c">#</span>5. 安装与配置 Isaac Gym</span>
+下载 NVIDIA Isaac Gym 压缩包并解压后，进入 Python 目录进行安装。
+<span class="pl-c"><span class="pl-c">#</span> 1. 进入 Isaac Gym 的 python 目录</span>
+<span class="pl-c1">cd</span> isaacgym/python
+
+<span class="pl-c"><span class="pl-c">#</span> 2. 以可编辑模式安装 (-e 参数便于后续开发调试，无需重新安装即可生效代码修改)</span>
+pip install -e <span class="pl-c1">.</span>
+
+效率小技巧：
+可以在 <span class="pl-k">~</span>/.bashrc 中添加别名，方便日后快速激活环境：
+<span class="pl-c1">alias</span> a1=<span class="pl-s"><span class="pl-pds">"</span>conda activate OmniRobCtrl<span class="pl-pds">"</span></span>
+添加后记得运行 <span class="pl-c1">source</span> <span class="pl-k">~</span>/.bashrc
+
+<span class="pl-c"><span class="pl-c">#</span>6. 注意事项：版本一致性</span>
+在配置过程中，CUDA、PyTorch 和 LibTorch 的版本一致性
+
+显卡驱动	nvidia-smi	查看支持的最高 CUDA 版本
+PyTorch	python -c <span class="pl-s"><span class="pl-pds">"</span>import torch; print(torch.version.cuda)<span class="pl-pds">"</span></span>	必须与 Isaac Gym 底层编译的 CUDA 版本一致
+LibTorch	(内置于 Isaac Gym)	必须与安装的 PyTorch 版本匹配
+
+如果版本不匹配（例如 PyTorch 是基于 CUDA 11.3 编译，而 Isaac Gym 依赖 11.4），可能导致：
+仿真启动瞬间崩溃 (Segmentation Fault)
+模型加载失败 (RuntimeError)
+训练结果完全不收敛或数值异常 (NaN)</pre></div></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
@@ -103,7 +233,7 @@ if(""!=""){
 </script></div>
 </body>
 <script>
-var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z'};
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
 var utterancesLoad=0;
 
 let themeSettings={
@@ -177,7 +307,70 @@ function iFrameLoading(){
     }
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
 
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
 
 </script>
 
